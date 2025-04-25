@@ -51,7 +51,7 @@ following technologies:
         a custom hook) DONE
 
     b.  Avoid refetching data unnecessarily if a user views the same
-        Pokémon more than once
+        Pokémon more than once DONE
 
 ### Backend (Express + TypeScript)
 

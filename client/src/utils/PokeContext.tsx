@@ -13,8 +13,7 @@ type PokemonContextType = {
   resetState: Function;
   searchInput: string;
   setSearchInput: Function;
-  pokemonDetails: PokemonDetails | undefined,
-
+  pokemonDetails: PokemonDetails | undefined;
 };
 
 const PokemonContext = createContext<PokemonContextType | undefined>(undefined);
@@ -33,6 +32,8 @@ export const PokemonProvider = ({
 
   const [searchInput, setSearchInput] = useState<string>("");
   const [pokemonDetails, setPokemonDetails] = useState<PokemonDetails>();
+
+  const [visitedPokemon, setVisitedPokemon] = useState<any>({});
 
   const fetchPokemonListAndFavoritesAndTypes = async () => {
     setLoading(true);
@@ -72,11 +73,21 @@ export const PokemonProvider = ({
 
   const fetchPokemonSearch = async (searchTerm: string) => {
     try {
-      let response = await axios.get(
-        `http://localhost:3001/pokemon/${searchTerm}`
-      );
+      let returnData;
+      if (visitedPokemon[searchTerm]) {
+        returnData = visitedPokemon[searchTerm];
+      } else {
+        let response = await axios.get(
+          `http://localhost:3001/pokemon/${searchTerm}`
+        );
+        returnData = response?.data;
+        setVisitedPokemon({
+          ...visitedPokemon,
+          [response?.data.name]: response.data,
+        });
+      }
 
-      setPokemonDetails(response?.data);
+      setPokemonDetails(returnData);
     } catch (error) {
       console.error("Error fetching data:", error);
     }

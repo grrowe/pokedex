@@ -1,15 +1,15 @@
 import { PokeSearchProps, Type } from "../../utils/types.tsx";
 import { Input, Spinner, Checkbox } from "@chakra-ui/react";
 
+import { usePokemon } from "../../utils/PokeContext.tsx";
+
 const PokeSearch = ({
   searchInput,
   setSearchInput,
-  loading,
-  types,
-  typeFilter,
-  setTypeFilter,
   pokemonDetails,
 }: PokeSearchProps) => {
+  const { loading, types, typeFilter, setTypeFilter } = usePokemon();
+
   return (
     <>
       <Input

@@ -13,19 +13,15 @@ import {
 
 import { capitalize } from "@/utils/functions.tsx";
 
+import { usePokemon } from "../../utils/PokeContext.tsx";
+
 interface PokeDetailsProps {
-  pokemon: PokemonDetails;
+  pokemonDetails: PokemonDetails;
   resetState: Function;
-  favorites: string[];
-  setFavorites: Function;
 }
 
-const PokeDetails = ({
-  pokemon,
-  resetState,
-  favorites,
-  setFavorites,
-}: PokeDetailsProps) => {
+const PokeDetails = ({ pokemonDetails, resetState }: PokeDetailsProps) => {
+  const { favorites, setFavorites } = usePokemon();
   const imgArr = ["front_default", "back_default", "front_shiny", "back_shiny"];
 
   const [currentImgIndex, setCurrentImgIndex] = useState<number>(0);
@@ -80,18 +76,18 @@ const PokeDetails = ({
       >
         <div style={{ padding: 10, cursor: "pointer" }}>
           <Icon size="lg">
-            {favorites.includes(pokemon.name) ? (
+            {favorites.includes(pokemonDetails.name) ? (
               <FaStar
                 style={{ color: "yellow", fontSize: "2rem" }}
                 onClick={() => {
-                  removePokeToFavorites(pokemon.name);
+                  removePokeToFavorites(pokemonDetails.name);
                 }}
               />
             ) : (
               <FaRegStar
                 style={{ color: "yellow", fontSize: "2rem" }}
                 onClick={() => {
-                  addPokeToFavorites(pokemon.name);
+                  addPokeToFavorites(pokemonDetails.name);
                 }}
               />
             )}
@@ -112,8 +108,8 @@ const PokeDetails = ({
       </div>
 
       <Image
-        src={pokemon.sprites[imgArr[currentImgIndex]]}
-        alt={pokemon.name}
+        src={pokemonDetails.sprites[imgArr[currentImgIndex]]}
+        alt={pokemonDetails.name}
       />
       <div
         style={{
@@ -144,10 +140,10 @@ const PokeDetails = ({
         />
       </div>
       <Card.Body gap="2">
-        <Card.Title>{capitalize(pokemon.name)}</Card.Title>
+        <Card.Title>{capitalize(pokemonDetails.name)}</Card.Title>
         <Card.Description>
-          {capitalize(pokemon.name)} is a{" "}
-          {pokemon.types.map((type: any, index: number) => {
+          {capitalize(pokemonDetails.name)} is a{" "}
+          {pokemonDetails.types.map((type: any, index: number) => {
             return <b key={`name-${index}`}>{type.type.name} </b>;
           })}{" "}
           type of pokemon.
@@ -163,7 +159,7 @@ const PokeDetails = ({
             >
               Stats:
             </Text>
-            {pokemon.stats.map((stat: any, index: number) => {
+            {pokemonDetails.stats.map((stat: any, index: number) => {
               return (
                 <Text
                   textStyle="md"
@@ -186,7 +182,7 @@ const PokeDetails = ({
             >
               Abilities:
             </Text>
-            {pokemon.abilities.map((ability: any, index: number) => {
+            {pokemonDetails.abilities.map((ability: any, index: number) => {
               return (
                 <Text
                   textStyle="md"

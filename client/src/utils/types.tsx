@@ -17,18 +17,11 @@ export interface PokemonDetails {
 }
 
 export interface PokeListProps {
-  pokemon: Pokemon[];
   setSearchInput: Function;
-  favorites: string[];
-  typeFilter: string[];
 }
 
 export interface PokeSearchProps {
   searchInput: string;
   setSearchInput: Function;
-  loading: boolean;
-  types: Type[];
-  typeFilter: string[];
-  setTypeFilter: Function;
   pokemonDetails: PokemonDetails | undefined;
 }

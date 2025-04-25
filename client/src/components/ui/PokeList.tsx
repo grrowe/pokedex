@@ -5,12 +5,11 @@ import { useState } from "react";
 
 import { capitalize } from "@/utils/functions.tsx";
 
-const PokeList = ({
-  pokemon,
-  setSearchInput,
-  favorites,
-  typeFilter,
-}: PokeListProps) => {
+import { usePokemon } from "../../utils/PokeContext.tsx";
+
+const PokeList = ({ setSearchInput }: PokeListProps) => {
+  const { pokemon, favorites, typeFilter } = usePokemon();
+
   const favoritePokemons = favorites.filter(
     (name) => !pokemon.some((poke: Pokemon) => poke.name === name)
   );

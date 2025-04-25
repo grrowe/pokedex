@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { Pokemon, Type } from "./types.tsx";
+import { Pokemon, Type, PokemonDetails } from "./types.tsx";
 
 type PokemonContextType = {
   pokemon: Pokemon[];
@@ -8,9 +8,13 @@ type PokemonContextType = {
   loading: boolean;
   types: any[];
   typeFilter: string[];
-  refreshData: () => void;
   setTypeFilter: Function;
-  setFavorites: Function
+  setFavorites: Function;
+  resetState: Function;
+  searchInput: string;
+  setSearchInput: Function;
+  pokemonDetails: PokemonDetails | undefined,
+
 };
 
 const PokemonContext = createContext<PokemonContextType | undefined>(undefined);
@@ -27,7 +31,10 @@ export const PokemonProvider = ({
   const [types, setTypes] = useState<Type[]>([]);
   const [typeFilter, setTypeFilter] = useState<string[]>([]);
 
-  const fetchPokemonListAndFavorites = async () => {
+  const [searchInput, setSearchInput] = useState<string>("");
+  const [pokemonDetails, setPokemonDetails] = useState<PokemonDetails>();
+
+  const fetchPokemonListAndFavoritesAndTypes = async () => {
     setLoading(true);
     try {
       const [list, favs, types] = await Promise.all([
@@ -54,9 +61,45 @@ export const PokemonProvider = ({
     }
   };
 
+  const debounce = (func: Function, delay: number) => {
+    let timeoutId: ReturnType<typeof setTimeout>;
+
+    return (...args: any[]) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => func(...args), delay);
+    };
+  };
+
+  const fetchPokemonSearch = async (searchTerm: string) => {
+    try {
+      let response = await axios.get(
+        `http://localhost:3001/pokemon/${searchTerm}`
+      );
+
+      setPokemonDetails(response?.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const debouncedFetchPokemon = debounce(fetchPokemonSearch, 1000);
+
+  const resetState = () => {
+    setPokemonDetails(undefined);
+    setSearchInput("");
+  };
+
   useEffect(() => {
-    fetchPokemonListAndFavorites();
+    fetchPokemonListAndFavoritesAndTypes();
   }, []);
+
+  useEffect(() => {
+    if (searchInput) {
+      debouncedFetchPokemon(searchInput);
+    } else {
+      setPokemonDetails(undefined);
+    }
+  }, [searchInput]);
 
   return (
     <PokemonContext.Provider
@@ -66,9 +109,12 @@ export const PokemonProvider = ({
         loading,
         types,
         typeFilter,
-        refreshData: fetchPokemonListAndFavorites,
+        searchInput,
+        pokemonDetails,
         setTypeFilter: setTypeFilter,
-        setFavorites: setFavorites
+        setFavorites: setFavorites,
+        resetState: resetState,
+        setSearchInput: setSearchInput,
       }}
     >
       {children}

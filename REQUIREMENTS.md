@@ -48,7 +48,7 @@ following technologies:
 4.  Basic Caching
 
     a.  Cache fetched Pokémon details in memory (using React context or
-        a custom hook) 
+        a custom hook) DONE
 
     b.  Avoid refetching data unnecessarily if a user views the same
         Pokémon more than once

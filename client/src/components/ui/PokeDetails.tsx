@@ -1,7 +1,7 @@
 import { PokemonDetails } from "../../utils/types.tsx";
 import { Icon, Card, Image, Text, Grid } from "@chakra-ui/react";
-
 import { useState } from "react";
+import axios from "axios";
 
 import {
   FaRegStar,
@@ -15,25 +15,56 @@ import { capitalize } from "@/utils/functions.tsx";
 
 interface PokeDetailsProps {
   pokemon: PokemonDetails;
-  setPokemonDetails: Function;
+  resetState: Function;
+  favorites: string[];
+  setFavorites: Function;
 }
 
-const PokeDetails = ({ pokemon, setPokemonDetails }: PokeDetailsProps) => {
+const PokeDetails = ({
+  pokemon,
+  resetState,
+  favorites,
+  setFavorites,
+}: PokeDetailsProps) => {
   const imgArr = ["front_default", "back_default", "front_shiny", "back_shiny"];
 
-  const [favorite, setFavorite] = useState(false); // TEMP TILL API IS SET UP
   const [currentImgIndex, setCurrentImgIndex] = useState<number>(0);
+
+  const addPokeToFavorites = (name: string) => {
+    let newFavs = [...favorites, name];
+    axios
+      .post("http://localhost:3001/favorites", newFavs)
+      .then((res) => {
+        setFavorites(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const removePokeToFavorites = (name: string) => {
+    let newFavs = favorites.filter((fav: string) => {
+      return fav !== name;
+    });
+
+    axios
+      .post("http://localhost:3001/favorites", newFavs)
+      .then((res) => {
+        setFavorites(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const nextImg = () => {
     if (currentImgIndex + 1 === imgArr.length) {
-      console.log("reset");
       setCurrentImgIndex(0);
     } else setCurrentImgIndex(currentImgIndex + 1);
   };
 
   const lastImg = () => {
     if (currentImgIndex === 0) {
-      console.log("reset");
       setCurrentImgIndex(imgArr.length - 1);
     } else setCurrentImgIndex(currentImgIndex - 1);
   };
@@ -49,18 +80,18 @@ const PokeDetails = ({ pokemon, setPokemonDetails }: PokeDetailsProps) => {
       >
         <div style={{ padding: 10, cursor: "pointer" }}>
           <Icon size="lg">
-            {favorite ? (
+            {favorites.includes(pokemon.name) ? (
               <FaStar
                 style={{ color: "yellow", fontSize: "2rem" }}
                 onClick={() => {
-                  setFavorite(!favorite);
+                  removePokeToFavorites(pokemon.name);
                 }}
               />
             ) : (
               <FaRegStar
                 style={{ color: "yellow", fontSize: "2rem" }}
                 onClick={() => {
-                  setFavorite(!favorite);
+                  addPokeToFavorites(pokemon.name);
                 }}
               />
             )}
@@ -74,7 +105,7 @@ const PokeDetails = ({ pokemon, setPokemonDetails }: PokeDetailsProps) => {
                 fontSize: "1.5rem",
                 cursor: "pointer",
               }}
-              onClick={() => setPokemonDetails(undefined)}
+              onClick={() => resetState()}
             />
           </Icon>
         </div>{" "}

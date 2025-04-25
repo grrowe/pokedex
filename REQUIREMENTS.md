@@ -25,7 +25,7 @@ following technologies:
 
     b.  Support searching by name - DONE
 
-    c.  Optional: Implement pagination or infinite scrolling
+    c.  Optional: Implement pagination or infinite scrolling DONE
 
 2.  Detail View
 
@@ -43,7 +43,7 @@ following technologies:
 
 3.  Filtering
 
-    a.  Add a filter by type (e.g. Fire, Water, Electric)
+    a.  Add a filter by type (e.g. Fire, Water, Electric) DONE
 
 4.  Basic Caching
 
@@ -59,11 +59,11 @@ following technologies:
 
   - Endpoints:
 
-    - Return a list of favorited Pokémon
+    - Return a list of favorited Pokémon DONE
 
-    - Add a favorite Pokémon
+    - Add a favorite Pokémon DONE
 
-    - Delete a favorite Pokémon
+    - Delete a favorite Pokémon DONE
 
 - Optional: Use sqlite for data persistence
 

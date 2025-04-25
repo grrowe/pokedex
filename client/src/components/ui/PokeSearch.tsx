@@ -1,7 +1,15 @@
-import { PokeSearchProps } from "../../utils/types.tsx";
-import { Input, Spinner } from "@chakra-ui/react";
+import { PokeSearchProps, Type } from "../../utils/types.tsx";
+import { Input, Spinner, Checkbox } from "@chakra-ui/react";
 
-const PokeSearch = ({ searchInput, setSearchInput, loading }: PokeSearchProps) => {
+const PokeSearch = ({
+  searchInput,
+  setSearchInput,
+  loading,
+  types,
+  typeFilter,
+  setTypeFilter,
+  pokemonDetails,
+}: PokeSearchProps) => {
   return (
     <>
       <Input
@@ -12,6 +20,36 @@ const PokeSearch = ({ searchInput, setSearchInput, loading }: PokeSearchProps) =
           setSearchInput(e.target.value);
         }}
       />
+
+      {!pokemonDetails &&
+        types.map((type: Type) => {
+          return (
+            <Checkbox.Root
+              variant="outline"
+              colorPalette={"yellow"}
+              style={{ padding: 5 }}
+              checked={typeFilter.includes(type.name)}
+              onCheckedChange={(details: any) => {
+                if (!details.checked) {
+                  let newFilters = typeFilter.filter((t: string) => {
+                    if (t === type.name) return false;
+                    return true;
+                  });
+                  setTypeFilter(newFilters);
+                }
+                if (details.checked) {
+                  console.log("hasdasd");
+                  setTypeFilter([...typeFilter, type.name]);
+                }
+              }}
+            >
+              <Checkbox.HiddenInput />
+              <Checkbox.Control />
+              <Checkbox.Label>{type.name}</Checkbox.Label>
+            </Checkbox.Root>
+          );
+        })}
+
       {loading && <Spinner />}
     </>
   );

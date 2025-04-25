@@ -65,11 +65,11 @@ following technologies:
 
     - Delete a favorite Pokémon DONE
 
-- Optional: Use sqlite for data persistence
+- Optional: Use sqlite for data persistence DIDN'T GET TO, TIME... :/
 
 ## Technical Requirements
 
-- Frontend: React and TypeScript
+- Frontend: React and TypeScript 
 
 - Backend: NodeJS, Express, TypeScript
 

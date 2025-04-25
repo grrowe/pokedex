@@ -78,8 +78,9 @@ export const PokemonProvider = ({
         returnData = visitedPokemon[searchTerm];
       } else {
         let response = await axios.get(
-          `http://localhost:3001/pokemon/${searchTerm}`
+          `https://pokeapi.co/api/v2/pokemon/${searchTerm}`
         );
+        console.log(response.data)
         returnData = response?.data;
         setVisitedPokemon({
           ...visitedPokemon,

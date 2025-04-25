@@ -49,28 +49,6 @@ app.get("/pokemon", async (req: Request, res: Response) => {
   }
 });
 
-app.get("/pokemon/:searchTerm", async (req: Request, res: Response) => {
-  const { searchTerm } = req.params;
-
-  try {
-    const response = await axios.get<any>(
-      `https://pokeapi.co/api/v2/pokemon/${searchTerm}`
-    );
-
-    res.json(response.data);
-  } catch (error) {
-    console.error(error);
-
-    if (axios.isAxiosError(error) && error.response?.status === 404) {
-      res
-        .status(404)
-        .send(`Pokemon with the name or ID "${searchTerm}" not found.`);
-    } else {
-      res.status(500).send("Error fetching Pokemon data");
-    }
-  }
-});
-
 app.get("/favorites", (req: Request, res: Response) => {
   res.status(200).json(favorites);
 });

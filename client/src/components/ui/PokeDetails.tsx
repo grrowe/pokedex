@@ -147,8 +147,8 @@ const PokeDetails = ({
         <Card.Title>{capitalize(pokemon.name)}</Card.Title>
         <Card.Description>
           {capitalize(pokemon.name)} is a{" "}
-          {pokemon.types.map((type: any) => {
-            return <b>{type.type.name} </b>;
+          {pokemon.types.map((type: any, index: number) => {
+            return <b key={`name-${index}`}>{type.type.name} </b>;
           })}{" "}
           type of pokemon.
         </Card.Description>
@@ -163,13 +163,14 @@ const PokeDetails = ({
             >
               Stats:
             </Text>
-            {pokemon.stats.map((stat: any) => {
+            {pokemon.stats.map((stat: any, index: number) => {
               return (
                 <Text
                   textStyle="md"
                   fontWeight="medium"
                   letterSpacing="tight"
                   mt="2"
+                  key={`stat-${index}`}
                 >
                   {`${stat.stat.name}: ${stat.base_stat}`}
                 </Text>
@@ -185,13 +186,14 @@ const PokeDetails = ({
             >
               Abilities:
             </Text>
-            {pokemon.abilities.map((ability: any) => {
+            {pokemon.abilities.map((ability: any, index: number) => {
               return (
                 <Text
                   textStyle="md"
                   fontWeight="medium"
                   letterSpacing="tight"
                   mt="2"
+                  key={`ability-${index}`}
                 >
                   {ability.ability.name}
                 </Text>

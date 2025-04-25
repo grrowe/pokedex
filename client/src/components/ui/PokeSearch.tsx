@@ -22,9 +22,10 @@ const PokeSearch = ({
       />
 
       {!pokemonDetails &&
-        types.map((type: Type) => {
+        types.map((type: Type, index: number) => {
           return (
             <Checkbox.Root
+              key={index}
               variant="outline"
               colorPalette={"yellow"}
               style={{ padding: 5 }}
@@ -38,7 +39,6 @@ const PokeSearch = ({
                   setTypeFilter(newFilters);
                 }
                 if (details.checked) {
-                  console.log("hasdasd");
                   setTypeFilter([...typeFilter, type.name]);
                 }
               }}

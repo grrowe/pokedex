@@ -21,9 +21,9 @@ following technologies:
 1.  Search & Browse
 
     a.  Provide a list or grid of Pokémon displaying their name and
-        image.
+        image. - DONE
 
-    b.  Support searching by name
+    b.  Support searching by name - DONE
 
     c.  Optional: Implement pagination or infinite scrolling
 
@@ -31,15 +31,15 @@ following technologies:
 
     a.  When selecting a Pokémon, show details including:
 
-        i.  Types
+        i.  Types DONE
 
-        ii. Abilities
+        ii. Abilities DONE
 
-        iii. Base stats (HP, attack damage, defense, etc.)
+        iii. Base stats (HP, attack damage, defense, etc.) DONE
 
-        iv. Image
+        iv. Image DONE
 
-    b.  Display the data in a visually clear and organized way
+    b.  Display the data in a visually clear and organized way DONE
 
 3.  Filtering
 

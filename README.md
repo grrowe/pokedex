@@ -34,7 +34,8 @@ Improvements in the future:
 - Styling, to look more pokedex like
 - Some query optimizations, specifically the first big query
 - The search function, it is working but it would does not filter the list but instead just queries once it the debounce is finished.
-- Finally, I dont store the state of pagination. For example, if you go to page 6, select a pokemon and return to the list, it will return to page 1.
+- I dont store the state of pagination. For example, if you go to page 6, select a pokemon and return to the list, it will return to page 1.
+- Finally, client error handling. The most obvious example is the search bar, if you search for a pokemon that doesnt exist or like `pika` it wont search but on the backend it returns a 404 but is not shown to the user.
 
 ---
 

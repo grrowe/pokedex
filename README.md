@@ -30,6 +30,11 @@ once both environments are running please visit http://localhost:5173/ to view t
 ## Future Improvements
 
 If I had more time, I would like to improve the styling and make some query optimizations.
+Improvements in the future:
+- Styling, to look more pokedex like
+- Some query optimizations, specifically the first big query
+- The search function, it is working but it would does not filter the list but instead just queries once it the debounce is finished.
+- Finally, I dont store the state of pagination. For example, if you go to page 6, select a pokemon and return to the list, it will return to page 1.
 
 ---
 

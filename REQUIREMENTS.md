@@ -21,37 +21,37 @@ following technologies:
 1.  Search & Browse
 
     a.  Provide a list or grid of Pokémon displaying their name and
-        image.
+        image. - DONE
 
-    b.  Support searching by name
+    b.  Support searching by name - DONE
 
-    c.  Optional: Implement pagination or infinite scrolling
+    c.  Optional: Implement pagination or infinite scrolling DONE
 
 2.  Detail View
 
     a.  When selecting a Pokémon, show details including:
 
-        i.  Types
+        i.  Types DONE
 
-        ii. Abilities
+        ii. Abilities DONE
 
-        iii. Base stats (HP, attack damage, defense, etc.)
+        iii. Base stats (HP, attack damage, defense, etc.) DONE
 
-        iv. Image
+        iv. Image DONE
 
-    b.  Display the data in a visually clear and organized way
+    b.  Display the data in a visually clear and organized way DONE
 
 3.  Filtering
 
-    a.  Add a filter by type (e.g. Fire, Water, Electric)
+    a.  Add a filter by type (e.g. Fire, Water, Electric) DONE
 
 4.  Basic Caching
 
     a.  Cache fetched Pokémon details in memory (using React context or
-        a custom hook)
+        a custom hook) DONE
 
     b.  Avoid refetching data unnecessarily if a user views the same
-        Pokémon more than once
+        Pokémon more than once DONE
 
 ### Backend (Express + TypeScript)
 
@@ -59,17 +59,17 @@ following technologies:
 
   - Endpoints:
 
-    - Return a list of favorited Pokémon
+    - Return a list of favorited Pokémon DONE
 
-    - Add a favorite Pokémon
+    - Add a favorite Pokémon DONE
 
-    - Delete a favorite Pokémon
+    - Delete a favorite Pokémon DONE
 
-- Optional: Use sqlite for data persistence
+- Optional: Use sqlite for data persistence DIDN'T GET TO, TIME... :/
 
 ## Technical Requirements
 
-- Frontend: React and TypeScript
+- Frontend: React and TypeScript 
 
 - Backend: NodeJS, Express, TypeScript
 

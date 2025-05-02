@@ -20,6 +20,9 @@ interface PokemonDetails {
   abilities: { ability: { name: string } }[];
   types: { type: { name: string } }[];
   sprites: { front_default: string };
+  height: number;
+  order: number;
+  weight: number;
 }
 
 app.get("/pokemon", async (req: Request, res: Response) => {
@@ -36,7 +39,10 @@ app.get("/pokemon", async (req: Request, res: Response) => {
         name: pokemon.name,
         abilities: detailsResponse.data.abilities.map((a) => a.ability.name),
         types: detailsResponse.data.types.map((t) => t.type.name),
-        sprite: detailsResponse.data.sprites.front_default,
+        sprite: detailsResponse.data.sprites,
+        height: detailsResponse.data.height,
+        order: detailsResponse.data.order,
+        weight: detailsResponse.data.weight
       };
     });
 

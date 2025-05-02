@@ -1,26 +1,38 @@
 import "./App.css";
 
-import PokeList from "./components/ui/pokeList.tsx";
-import PokeSearch from "./components/ui/PokeSearch.tsx";
-import PokeDetails from "./components/ui/PokeDetails.tsx";
+import Pokedex from "./components/ui/pokedex/pokedex.tsx";
 import { usePokemon } from "./utils/PokeContext.tsx";
+import { Image, Box } from "@chakra-ui/react";
 
 function App() {
-  const { searchInput, setSearchInput, resetState, pokemonDetails } = usePokemon();
+  const { setPokemonDetails } = usePokemon();
   return (
-    <>
-      <PokeSearch
-        searchInput={searchInput}
-        setSearchInput={setSearchInput}
-        pokemonDetails={pokemonDetails}
-      />
-
-      {pokemonDetails ? (
-        <PokeDetails pokemonDetails={pokemonDetails} resetState={resetState} />
-      ) : (
-        <PokeList setSearchInput={setSearchInput} />
-      )}
-    </>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <Box
+        w="1/2"
+        onClick={() => {
+          setPokemonDetails(undefined);
+        }}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: "-10%",
+          cursor: "pointer",
+        }}
+      >
+        <Image src="/pokelogo.png" alt="Pokemon" />
+      </Box>
+      <Box>
+        <Pokedex />
+      </Box>
+    </div>
   );
 }
 

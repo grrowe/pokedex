@@ -1,6 +1,7 @@
 export interface Pokemon {
   name: string;
   types?: string[];
+  isFavorite?: boolean;
 }
 
 export interface Type {
@@ -11,9 +12,13 @@ export interface PokemonDetails {
   id: number;
   name: string;
   abilities: any;
-  sprites: any;
+  sprites?: any;
+  sprite?: any;
   types: any;
   stats: any;
+  height: number;
+  weight: number;
+  isFavorite?: boolean;
 }
 
 export interface PokeListProps {

@@ -1,0 +1,196 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+.pokedex {
+  display: flex;
+  width: 800px;
+  height: 500px;
+  background-color: #d00000;
+  border: 8px solid #333;
+  border-radius: 20px;
+  overflow: hidden;
+  font-family: "Press Start 2P", cursive;
+  color: #003300;
+}
+
+.pokedex-left,
+.pokedex-right {
+  flex: 1;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.screen {
+  background-color: #aaffaa;
+  border: 4px inset #333;
+  height: 250px;
+  margin-bottom: 20px;
+  padding: 10px;
+  animation: flicker 2s infinite;
+  box-shadow: 0 0 8px 2px #00ff00 inset;
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 0.95;
+  }
+  5% {
+    opacity: 0.9;
+  }
+  10% {
+    opacity: 0.95;
+  }
+  15% {
+    opacity: 0.85;
+  }
+  20% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0.95;
+  }
+}
+
+.pokemon-image-container {
+  position: relative;
+  width: fit-content;
+}
+
+.favorite-star {
+  position: absolute;
+  top: -20px;
+  right: -105px;
+  color: orange;
+  font-size: 1.5rem;
+  z-index: 2;
+}
+
+.pokemon-image {
+  width: 100%;
+  height: 150px;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.pokemon-image img {
+  image-rendering: pixelated;
+  width: 96px;
+  height: 96px;
+  animation: pixel-in 0.5s ease-in-out;
+}
+
+@keyframes pixel-in {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+    filter: brightness(0) contrast(200%);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    filter: none;
+  }
+}
+
+.pokemon-name {
+  text-align: center;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.dpad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.dpad-middle {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}
+
+.dpad-up,
+.dpad-down,
+.dpad-left,
+.dpad-right {
+  width: 30px;
+  height: 30px;
+  background-color: #333;
+}
+
+.dpad-left,
+.dpad-right {
+  cursor: pointer;
+}
+
+.dpad-center {
+  width: 30px;
+  height: 30px;
+  background-color: #d00000;
+}
+
+.right-screen {
+  background-color: #eeeeee;
+  padding: 10px;
+  border: 4px inset #666;
+  height: 300px;
+  overflow-y: auto;
+  font-size: 8px;
+  animation: flicker 2s infinite;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.yellow-button,
+.red-button,
+.blue-button {
+  border: none;
+  transition: transform 0.1s ease;
+}
+
+.red-button {
+  background-color: red;
+}
+
+.yellow-button {
+  background-color: yellow;
+}
+
+.blue-button {
+  background-color: blue;
+}
+
+.yellow-button:active,
+.red-button:active,
+.blue-button:active {
+  transform: scale(0.9);
+}
+
+.pokelist {
+  list-style: none;
+  font-size: 8px;
+  color: #003300;
+}
+
+.pokelist-item {
+  padding: 1px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.pokelist-item:hover {
+  background-color: #77ff77;
+  border: 1px solid #003300;
+  box-shadow: inset 0 0 4px #003300;
+}

@@ -14,6 +14,9 @@ type PokemonContextType = {
   searchInput: string;
   setSearchInput: Function;
   pokemonDetails: PokemonDetails | undefined;
+  setPokemonDetails: Function;
+  addPokeToFavorites: Function;
+  removePokeToFavorites: Function;
 };
 
 const PokemonContext = createContext<PokemonContextType | undefined>(undefined);
@@ -80,7 +83,7 @@ export const PokemonProvider = ({
         let response = await axios.get(
           `https://pokeapi.co/api/v2/pokemon/${searchTerm}`
         );
-        console.log(response.data)
+        console.log(response.data);
         returnData = response?.data;
         setVisitedPokemon({
           ...visitedPokemon,
@@ -94,6 +97,33 @@ export const PokemonProvider = ({
     }
   };
 
+  const addPokeToFavorites = (name: string) => {
+    let newFavs = [...favorites, name];
+    axios
+      .post("http://localhost:3001/favorites", newFavs)
+      .then((res) => {
+        setFavorites(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const removePokeToFavorites = (name: string) => {
+    let newFavs = favorites.filter((fav: string) => {
+      return fav !== name;
+    });
+
+    axios
+      .post("http://localhost:3001/favorites", newFavs)
+      .then((res) => {
+        setFavorites(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const debouncedFetchPokemon = debounce(fetchPokemonSearch, 1000);
 
   const resetState = () => {
@@ -105,13 +135,13 @@ export const PokemonProvider = ({
     fetchPokemonListAndFavoritesAndTypes();
   }, []);
 
-  useEffect(() => {
-    if (searchInput) {
-      debouncedFetchPokemon(searchInput);
-    } else {
-      setPokemonDetails(undefined);
-    }
-  }, [searchInput]);
+  // useEffect(() => {
+  //   if (searchInput) {
+  //     debouncedFetchPokemon(searchInput);
+  //   } else {
+  //     setPokemonDetails(undefined);
+  //   }
+  // }, [searchInput]);
 
   return (
     <PokemonContext.Provider
@@ -127,6 +157,9 @@ export const PokemonProvider = ({
         setFavorites: setFavorites,
         resetState: resetState,
         setSearchInput: setSearchInput,
+        setPokemonDetails: setPokemonDetails,
+        addPokeToFavorites: addPokeToFavorites,
+        removePokeToFavorites: removePokeToFavorites,
       }}
     >
       {children}

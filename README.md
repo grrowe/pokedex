@@ -6,7 +6,7 @@ This is a Pokedex application that allows users to explore Pokemon data.
 
 This is a fun little Pokedex of the original 151 pokemon. You can search for your favorite, add to your favorites, and filter based on your preferred types of pokemon!
 
-https://github.com/user-attachments/assets/a496221c-7112-4fdc-ab26-9f4332e51149
+
 
 ## Setup Instructions
 

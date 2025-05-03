@@ -194,3 +194,14 @@
   border: 1px solid #003300;
   box-shadow: inset 0 0 4px #003300;
 }
+
+.filter-icon-svg {
+  image-rendering: pixelated;
+  cursor: pointer;
+  color: "#003300";
+}
+
+h2 {
+  font-size: small !important;
+  margin-top: 5px;
+}

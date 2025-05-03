@@ -6,28 +6,11 @@ import { usePokemon } from "../../../utils/PokeContext.tsx";
 
 import { Icon, Heading, Box, Input } from "@chakra-ui/react";
 
+import { Tooltip } from "@/components/ui/tooltip";
+
 import { capitalize } from "@/utils/functions.tsx";
 
 import { FaStar } from "react-icons/fa";
-
-type PokemonData = {
-  name: string;
-  type: string;
-  height: string;
-  weight: string;
-  description: string;
-  imageUrl: string;
-};
-
-const mockData: PokemonData = {
-  name: "Pikachu",
-  type: "Electric",
-  height: "0.4m",
-  weight: "6.0kg",
-  description: "It keeps its tail raised to monitor its surroundings.",
-  imageUrl:
-    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png",
-};
 
 const Pokedex = () => {
   const {
@@ -40,6 +23,8 @@ const Pokedex = () => {
     setSearchInput,
     addPokeToFavorites,
     removePokeToFavorites,
+    setDrawer,
+    drawer,
   } = usePokemon();
 
   const favoritePokemons = favorites.filter(
@@ -100,8 +85,6 @@ const Pokedex = () => {
 
   const totalPages = Math.ceil(visiblePokemon.length / itemsPerPage);
 
-  console.log(pokemonDetails);
-
   return (
     <div className="pokedex">
       <div className="pokedex-left">
@@ -117,6 +100,7 @@ const Pokedex = () => {
                     <FaStar className="favorite-star" />
                   )}
                   <img
+                    style={{ height: "150px", width: "150px" }}
                     src={pokemonDetails.sprite[imgArr[currentImgIndex]]}
                     alt={pokemonDetails.name}
                   />
@@ -129,7 +113,7 @@ const Pokedex = () => {
 
           <div className="pokemon-name">
             {pokemonDetails
-              ? capitalize(pokemonDetails.name)
+              ? `#${pokemonDetails.order} ${capitalize(pokemonDetails.name)}`
               : "Please select a pokemon!"}
           </div>
           {!pokemonDetails && (
@@ -146,7 +130,10 @@ const Pokedex = () => {
 
         <div className="controls">
           <div className="dpad">
-            <div className="dpad-up" />
+            <Tooltip content="This button doesn't do anything!">
+              <div className="dpad-up" />
+            </Tooltip>
+
             <div className="dpad-middle">
               <div
                 className="dpad-left"
@@ -162,7 +149,9 @@ const Pokedex = () => {
                 }}
               />
             </div>
-            <div className="dpad-down" />
+            <Tooltip content="This button doesn't do anything!">
+              <div className="dpad-down" />
+            </Tooltip>
           </div>
         </div>
       </div>
@@ -183,12 +172,40 @@ const Pokedex = () => {
             <p>
               <strong>Weight:</strong> {`${pokemonDetails.weight / 10} kg`}
             </p>
+            <h2>Abilities</h2>
+            <div
+              style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}
+            >
+              {pokemonDetails.abilities.map((a: any) => {
+                return (
+                  <a
+                    key={a.ability.name}
+                    target="_blank"
+                    href={`${a.ability.url}`}
+                  >
+                    {a.ability.name}
+                  </a>
+                );
+              })}
+            </div>
+            <h2>Moves</h2>
+            <div
+              style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}
+            >
+              {pokemonDetails.moves.map((m: any) => {
+                return (
+                  <a key={m.move.name} target="_blank" href={`${m.move.url}`}>
+                    {m.move.name}
+                  </a>
+                );
+              })}
+            </div>
           </div>
         ) : (
           <div className="right-screen">
             {/* LIST */}
             <>
-              <Heading size="lg">Pokemon</Heading>
+              <h2 style={{ marginBottom: "5px" }}>Pokemon</h2>
               <Box as="ul" className="pokelist">
                 {paginatedPokemon
                   .sort((a: Pokemon, b: Pokemon) => {
@@ -205,7 +222,6 @@ const Pokedex = () => {
                       key={index}
                       className="pokelist-item"
                       onClick={() => {
-                        // setSearchInput(poke.name);
                         setPokemonDetails(poke);
                       }}
                     >
@@ -265,6 +281,23 @@ const Pokedex = () => {
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
               >{`<`}</button>
+              <button
+                className="yellow-button"
+                onClick={() => setDrawer(!drawer)}
+              >
+                <div className="filter-icon-container">
+                  <svg
+                    className="filter-icon-svg"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="#003300"
+                    width="16px"
+                    height="16px"
+                  >
+                    <path d="M3 4h18v2H3V4zm4 6h10v2H7v-2zm4 6h2v2h-2v-2z" />
+                  </svg>
+                </div>
+              </button>
               <button
                 className="yellow-button"
                 onClick={() =>

@@ -23,6 +23,7 @@ interface PokemonDetails {
   height: number;
   order: number;
   weight: number;
+  moves: { moves: { name: string } }[];
 }
 
 app.get("/pokemon", async (req: Request, res: Response) => {
@@ -35,14 +36,16 @@ app.get("/pokemon", async (req: Request, res: Response) => {
 
     const pokemonDetailsPromises = pokemonList.map(async (pokemon) => {
       const detailsResponse = await axios.get<PokemonDetails>(pokemon.url);
+
       return {
         name: pokemon.name,
-        abilities: detailsResponse.data.abilities.map((a) => a.ability.name),
+        abilities: detailsResponse.data.abilities,
         types: detailsResponse.data.types.map((t) => t.type.name),
         sprite: detailsResponse.data.sprites,
         height: detailsResponse.data.height,
         order: detailsResponse.data.order,
-        weight: detailsResponse.data.weight
+        weight: detailsResponse.data.weight,
+        moves: detailsResponse.data.moves,
       };
     });
 

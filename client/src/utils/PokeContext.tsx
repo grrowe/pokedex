@@ -17,6 +17,8 @@ type PokemonContextType = {
   setPokemonDetails: Function;
   addPokeToFavorites: Function;
   removePokeToFavorites: Function;
+  drawer: boolean;
+  setDrawer: Function;
 };
 
 const PokemonContext = createContext<PokemonContextType | undefined>(undefined);
@@ -37,6 +39,7 @@ export const PokemonProvider = ({
   const [pokemonDetails, setPokemonDetails] = useState<PokemonDetails>();
 
   const [visitedPokemon, setVisitedPokemon] = useState<any>({});
+  const [drawer, setDrawer] = useState<boolean>(false);
 
   const fetchPokemonListAndFavoritesAndTypes = async () => {
     setLoading(true);
@@ -135,14 +138,6 @@ export const PokemonProvider = ({
     fetchPokemonListAndFavoritesAndTypes();
   }, []);
 
-  // useEffect(() => {
-  //   if (searchInput) {
-  //     debouncedFetchPokemon(searchInput);
-  //   } else {
-  //     setPokemonDetails(undefined);
-  //   }
-  // }, [searchInput]);
-
   return (
     <PokemonContext.Provider
       value={{
@@ -160,6 +155,8 @@ export const PokemonProvider = ({
         setPokemonDetails: setPokemonDetails,
         addPokeToFavorites: addPokeToFavorites,
         removePokeToFavorites: removePokeToFavorites,
+        drawer,
+        setDrawer: setDrawer,
       }}
     >
       {children}

@@ -19,6 +19,8 @@ export interface PokemonDetails {
   height: number;
   weight: number;
   isFavorite?: boolean;
+  order: number;
+  moves: any;
 }
 
 export interface PokeListProps {

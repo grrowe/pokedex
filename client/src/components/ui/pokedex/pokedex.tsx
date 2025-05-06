@@ -3,8 +3,9 @@ import { useState } from "react";
 
 import { Pokemon } from "../../../utils/types.tsx";
 import { usePokemon } from "../../../utils/PokeContext.tsx";
+import { useUser } from "../../../utils/UserContext.tsx";
 
-import { Icon, Heading, Box, Input } from "@chakra-ui/react";
+import { Icon, Box, Input } from "@chakra-ui/react";
 
 import { Tooltip } from "@/components/ui/tooltip";
 
@@ -26,6 +27,8 @@ const Pokedex = () => {
     setDrawer,
     drawer,
   } = usePokemon();
+
+  const { user } = useUser();
 
   const favoritePokemons = favorites.filter(
     (name) => !pokemon.some((poke: Pokemon) => poke.name === name)
@@ -86,7 +89,8 @@ const Pokedex = () => {
   const totalPages = Math.ceil(visiblePokemon.length / itemsPerPage);
 
   return (
-    <div className="pokedex">
+    <div className="pokedex z-1 bg-[#242424]">
+      <div>{user && user.username}</div>
       <div className="pokedex-left">
         <div className="screen">
           <div

@@ -4,12 +4,13 @@
   display: flex;
   width: 800px;
   height: 500px;
-  background-color: #d00000;
+  background-color: #d00000 !important;
   border: 8px solid #333;
   border-radius: 20px;
   overflow: hidden;
   font-family: "Press Start 2P", cursive;
   color: #003300;
+  z-index: 1000;
 }
 
 .pokedex-left,

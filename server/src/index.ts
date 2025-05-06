@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import axios from "axios";
+import bcrypt from "bcrypt";
 
 const app = express();
 const port = 3001;
@@ -9,6 +10,14 @@ app.use(cors());
 app.use(express.json());
 
 let favorites: string[] = [];
+
+interface User {
+  id: number;
+  username: any;
+  password: any;
+}
+
+const users: Array<User> = [];
 
 interface Pokemon {
   name: string;
@@ -25,6 +34,40 @@ interface PokemonDetails {
   weight: number;
   moves: { moves: { name: string } }[];
 }
+
+app.post("/users", async (req: Request, res: Response) => {
+  try {
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    console.log(hashedPassword);
+    const user = {
+      id: users.length + 1,
+      username: req.body.username,
+      password: hashedPassword,
+    };
+
+    users.push(user);
+
+    res.status(201).send(user);
+  } catch {
+    res.status(500).send();
+  }
+});
+
+app.post("/users/login", async (req: any, res: any) => {
+  const user = users.find((user) => user.username === req.body.username);
+  if (user == null) {
+    return res.status(400).send("Cannot find user");
+  }
+  try {
+    if (await bcrypt.compare(req.body.password, user.password)) {
+      res.status(200).send(user);
+    } else {
+      res.send("Not Allowed");
+    }
+  } catch {
+    res.status(500).send();
+  }
+});
 
 app.get("/pokemon", async (req: Request, res: Response) => {
   try {

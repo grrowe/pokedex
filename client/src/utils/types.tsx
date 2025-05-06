@@ -32,3 +32,8 @@ export interface PokeSearchProps {
   setSearchInput: Function;
   pokemonDetails: PokemonDetails | undefined;
 }
+
+export interface User {
+  id: number;
+  username: string;
+}

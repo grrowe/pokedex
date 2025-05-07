@@ -1,13 +1,21 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import axios from "axios";
-import bcrypt from "bcrypt";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT;
 
-app.use(cors());
 app.use(express.json());
+app.use(
+  cors({
+    origin: process.env.FRONTEND_ORIGIN || "http://localhost:5173", // or your actual frontend origin
+    credentials: true, // <- allow cookies to be sent/received
+  })
+);
 
 let favorites: string[] = [];
 
@@ -35,41 +43,11 @@ interface PokemonDetails {
   moves: { moves: { name: string } }[];
 }
 
-app.post("/users", async (req: Request, res: Response) => {
-  try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    console.log(hashedPassword);
-    const user = {
-      id: users.length + 1,
-      username: req.body.username,
-      password: hashedPassword,
-    };
-
-    users.push(user);
-
-    res.status(201).send(user);
-  } catch {
-    res.status(500).send();
-  }
+app.get("/users", authenticateToken, async (req: Request, res: Response) => {
+  res.status(200).send(users);
 });
 
-app.post("/users/login", async (req: any, res: any) => {
-  const user = users.find((user) => user.username === req.body.username);
-  if (user == null) {
-    return res.status(400).send("Cannot find user");
-  }
-  try {
-    if (await bcrypt.compare(req.body.password, user.password)) {
-      res.status(200).send(user);
-    } else {
-      res.send("Not Allowed");
-    }
-  } catch {
-    res.status(500).send();
-  }
-});
-
-app.get("/pokemon", async (req: Request, res: Response) => {
+app.get("/pokemon", authenticateToken, async (req: Request, res: Response) => {
   try {
     const response = await axios.get<{ results: Pokemon[] }>(
       "https://pokeapi.co/api/v2/pokemon?limit=151"
@@ -101,11 +79,11 @@ app.get("/pokemon", async (req: Request, res: Response) => {
   }
 });
 
-app.get("/favorites", (req: Request, res: Response) => {
+app.get("/favorites", authenticateToken, (req: Request, res: Response) => {
   res.status(200).json(favorites);
 });
 
-app.post("/favorites", (req: Request, res: Response) => {
+app.post("/favorites", authenticateToken, (req: Request, res: Response) => {
   const data = req.body;
 
   favorites = data;
@@ -115,6 +93,35 @@ app.post("/favorites", (req: Request, res: Response) => {
   res.status(201).json({ message: "Favorites updated", data });
 });
 
+interface AuthenticatedRequest extends Request {
+  user?: string | JwtPayload;
+}
+
+function authenticateToken(req: Request, res: Response, next: NextFunction) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (!token) {
+    res.status(401).send("Bearer TOKEN is not present in request headers");
+    return;
+  }
+
+  if (!process.env.ACCESS_TOKEN_SECRET) {
+    throw new Error("ACCESS_TOKEN_SECRET is not defined");
+  }
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) {
+      res.status(401).send("Invalid or expired token");
+      return;
+    }
+
+    const reqWithUser = req as AuthenticatedRequest;
+    reqWithUser.user = user;
+    next();
+  });
+}
+
 app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+  console.log(`API server is running at http://localhost:${port}`);
 });

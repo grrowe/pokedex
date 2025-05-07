@@ -4,8 +4,8 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
 
-import { PokemonProvider } from "./utils/PokeContext.tsx";
-import { UserProvider } from "./utils/UserContext.tsx";
+import { PokemonProvider } from "./utils/contexts/PokeContext.tsx";
+import { UserProvider } from "./utils/contexts/UserContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

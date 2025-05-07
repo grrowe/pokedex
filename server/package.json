@@ -4,7 +4,9 @@
   "main": "src/index.js",
   "scripts": {
     "build": "tsc -b",
-    "dev": "ts-node src/index.ts"
+    "dev": "concurrently \"npm run api\" \"npm run auth\"",
+    "api": "nodemon --watch src --ext ts --exec ts-node src/index.ts",
+    "auth": "nodemon --watch auth --ext ts --exec ts-node auth/auth.ts"
   },
   "keywords": [],
   "author": "",
@@ -12,8 +14,12 @@
   "description": "",
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
+    "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
+    "@types/jsonwebtoken": "^9.0.9",
+    "concurrently": "^9.1.2",
+    "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   },
@@ -21,7 +27,10 @@
     "@types/sqlite3": "^3.1.11",
     "axios": "^1.9.0",
     "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
-    "express": "^5.1.0"
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2"
   }
 }

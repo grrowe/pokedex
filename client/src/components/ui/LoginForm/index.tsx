@@ -1,6 +1,6 @@
 import "./LoginForm.css";
 import { useState } from "react";
-import { useUser } from "@/utils/UserContext";
+import { useUser } from "@/utils/contexts/UserContext";
 
 function LoginForm() {
   const { login, setIsSigningUp } = useUser();

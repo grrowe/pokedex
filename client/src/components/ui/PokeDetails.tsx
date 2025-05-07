@@ -13,7 +13,7 @@ import {
 
 import { capitalize } from "@/utils/functions.tsx";
 
-import { usePokemon } from "../../utils/PokeContext.tsx";
+import { usePokemon } from "../../utils/contexts/PokeContext.tsx";
 
 interface PokeDetailsProps {
   pokemonDetails: PokemonDetails;

@@ -1,7 +1,7 @@
 import "./SignupForm.css";
 import { useState } from "react";
 
-import { useUser } from "@/utils/UserContext";
+import { useUser } from "@/utils/contexts/UserContext";
 
 function SignupForm() {
   const { signUp } = useUser();

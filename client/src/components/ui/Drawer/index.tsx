@@ -1,6 +1,6 @@
 import { Drawer, Portal, Button, Checkbox } from "@chakra-ui/react";
 
-import { usePokemon } from "../../../utils/PokeContext.tsx";
+import { usePokemon } from "../../../utils/contexts/PokeContext.tsx";
 
 const FilterDrawer = ({}) => {
   const { drawer, setDrawer, types, typeFilter, setTypeFilter } = usePokemon();

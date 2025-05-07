@@ -1,6 +1,10 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { Pokemon, Type, PokemonDetails } from "./types.tsx";
+import { Pokemon, Type, PokemonDetails } from "../types.tsx";
+
+import { useUser } from "./UserContext.tsx";
+
+import { baseAPI, pokeAPI } from "../api/api.ts";
 
 type PokemonContextType = {
   pokemon: Pokemon[];
@@ -28,6 +32,8 @@ export const PokemonProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
+  const { user } = useUser();
+
   const [pokemon, setPokemon] = useState<Pokemon[]>([]);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
@@ -38,16 +44,15 @@ export const PokemonProvider = ({
   const [searchInput, setSearchInput] = useState<string>("");
   const [pokemonDetails, setPokemonDetails] = useState<PokemonDetails>();
 
-  const [visitedPokemon, setVisitedPokemon] = useState<any>({});
   const [drawer, setDrawer] = useState<boolean>(false);
 
   const fetchPokemonListAndFavoritesAndTypes = async () => {
     setLoading(true);
     try {
       const [list, favs, types] = await Promise.all([
-        axios.get("http://localhost:3001/pokemon"),
-        axios.get("http://localhost:3001/favorites"),
-        axios.get(`https://pokeapi.co/api/v2/type`),
+        baseAPI.get("/pokemon"),
+        baseAPI.get("/favorites"),
+        pokeAPI.get(`/type`),
       ]);
 
       setPokemon(list.data);
@@ -68,41 +73,9 @@ export const PokemonProvider = ({
     }
   };
 
-  const debounce = (func: Function, delay: number) => {
-    let timeoutId: ReturnType<typeof setTimeout>;
-
-    return (...args: any[]) => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => func(...args), delay);
-    };
-  };
-
-  const fetchPokemonSearch = async (searchTerm: string) => {
-    try {
-      let returnData;
-      if (visitedPokemon[searchTerm]) {
-        returnData = visitedPokemon[searchTerm];
-      } else {
-        let response = await axios.get(
-          `https://pokeapi.co/api/v2/pokemon/${searchTerm}`
-        );
-        console.log(response.data);
-        returnData = response?.data;
-        setVisitedPokemon({
-          ...visitedPokemon,
-          [response?.data.name]: response.data,
-        });
-      }
-
-      setPokemonDetails(returnData);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
   const addPokeToFavorites = (name: string) => {
     let newFavs = [...favorites, name];
-    axios
+    baseAPI
       .post("http://localhost:3001/favorites", newFavs)
       .then((res) => {
         setFavorites(res.data.data);
@@ -117,7 +90,7 @@ export const PokemonProvider = ({
       return fav !== name;
     });
 
-    axios
+    baseAPI
       .post("http://localhost:3001/favorites", newFavs)
       .then((res) => {
         setFavorites(res.data.data);
@@ -127,16 +100,16 @@ export const PokemonProvider = ({
       });
   };
 
-  const debouncedFetchPokemon = debounce(fetchPokemonSearch, 1000);
-
   const resetState = () => {
     setPokemonDetails(undefined);
     setSearchInput("");
   };
 
   useEffect(() => {
-    fetchPokemonListAndFavoritesAndTypes();
-  }, []);
+    if (user) {
+      fetchPokemonListAndFavoritesAndTypes();
+    }
+  }, [user]);
 
   return (
     <PokemonContext.Provider

@@ -2,8 +2,8 @@ import "./Pokedex.css";
 import { useState } from "react";
 
 import { Pokemon } from "../../../utils/types.tsx";
-import { usePokemon } from "../../../utils/PokeContext.tsx";
-import { useUser } from "../../../utils/UserContext.tsx";
+import { usePokemon } from "../../../utils/contexts/PokeContext.tsx";
+import { useUser } from "../../../utils/contexts/UserContext.tsx";
 
 import { Icon, Box, Input } from "@chakra-ui/react";
 

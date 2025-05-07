@@ -1,7 +1,7 @@
 import "./App.css";
 
-import { useUser } from "./utils/UserContext.tsx";
-import { usePokemon } from "./utils/PokeContext.tsx";
+import { useUser } from "./utils/contexts/UserContext.tsx";
+import { usePokemon } from "./utils/contexts/PokeContext.tsx";
 import { Image, Box } from "@chakra-ui/react";
 
 import Pokedex from "./components/ui/pokedex/pokedex.tsx";

@@ -14,6 +14,18 @@ You will have to perform the following on both /server and /client
 
 ```
 npm install
+
+add a .env file at the root of `server` with 
+AUTH_PORT=5001
+PORT=5000
+FRONTEND_ORIGIN=http://localhost:5173
+REFRESH_TOKEN_SECRET=YOUR_REFRESH_TOKEN
+ACCESS_TOKEN_SECRET=YOUR_ACCESS_TOKEN
+
+add a .env file at the root of `client` with
+VITE_AUTH_URL=http://localhost:5001
+VITE_BASE_URL=http://localhost:5000
+
 npm run dev
 ```
 Once both environments are running please visit http://localhost:5173/ to view the web pokedex.

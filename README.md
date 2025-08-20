@@ -19,7 +19,7 @@ add a .env file at the root of `server` with
 AUTH_PORT=5001
 PORT=5000
 FRONTEND_ORIGIN=http://localhost:5173
-REFRESH_TOKEN_SECRET=YOUR_REFRESH_TOKEN
+REFRESH_TOKEN_SECRET=YOUR_REFRESH_TOKEN  -- use openssl rand -base64 32 to generate tokens
 ACCESS_TOKEN_SECRET=YOUR_ACCESS_TOKEN
 
 add a .env file at the root of `client` with
